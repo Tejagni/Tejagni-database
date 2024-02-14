@@ -1,0 +1,41 @@
+Connect to mongoDb using the mongo shell
+For the CRUD operation of Insert and Retrival of documents we got some methods
+
+1) Insert Operation
+
+i) To insert a single document:
+we have insertOne and the snippet goes as below
+
+use 'database_name'
+db.'collection_name'.insertOne({
+  name: "aaa",
+  age: 00,
+  city: "bbb"
+})
+
+ii) To insert multiple documents:
+we have insertMany and the example snippet as below
+
+db.'collection_name'.insertMany([
+  { name: "aaa", age: 01, city: "xyz" },
+  { name: "bbb", age: 02, city: "yzx" },
+  { name: "ccc", age: 03, city: "zxy" }
+])
+
+2) Find Operation
+For find we can do three types of operation
+
+i)Fetch all the documents:
+find is used to fetch all the documents and below is the query to do it
+
+db.'collection_name'.find()
+
+ii) Fetch all the documents that matches the query condition
+find is used here, and a argument i.e a query is passed to it
+
+db.'collection_name'.find({age: {$gt: 20}}) this retrives the documents with age greater than 20
+
+iii) To fetch only one document
+findOne is used to fetch only one document that matches the query condition
+
+db.'collection_name'.findOne({name: "aaa"})
