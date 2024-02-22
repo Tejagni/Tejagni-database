@@ -22,15 +22,23 @@ try:
     select_companies = {"industry": "Tyres"}
 
     # Update all matching documents to set 'minimum_balance' field to 100
-    set_field = {"$set": {"minimum_balance": 100}}
+    set_field = {"$set": {"founded_year": 1998}}
     result = companies_collection.update_many(select_companies, set_field)
+    print(result)
 
     # Print the number of documents matched and updated
     print("Documents matched:", result.matched_count)
     print("Documents updated:", result.modified_count)
 
-    # Print one updated document for verification
-    pprint.pprint(companies_collection.find_one(select_companies))
+    # Printing all updated document for verification
+    cursor = companies_collection.find(select_companies)
+
+    num_docs = 0
+    for document in cursor:
+        num_docs += 1
+        pprint.pprint(document)
+        print()
+    print("# of documents found: " + str(num_docs))
 
 except Exception as e:
     print(e)
