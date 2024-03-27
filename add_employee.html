@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Add Employee</title>
+    <style>
+        /* Add your CSS styles here */
+        body {
+            background-color: yellow; /* Set background color to yellow */
+        }
+        form {
+            margin: 20px;
+            padding: 20px;
+            border: 1px solid black;
+            width: 50%;
+            background-color: white;
+        }
+        input {
+            margin-bottom: 10px;
+        }
+        button {
+            padding: 10px 20px;
+            background-color: #007bff;
+            color: white;
+            border: none;
+            cursor: pointer;
+        }
+    </style>
+</head>
+<body>
+    <h1>Add Employee</h1>
+    <form action="/add_employee" method="POST">
+        <label for="name">Name:</label><br>
+        <input type="text" id="name" name="name" required><br>
+        <label for="manager_name">Manager Name:</label><br>
+        <input type="text" id="manager_name" name="manager_name"><br>
+        <label for="last_project_name">Last Project Name:</label><br>
+        <input type="text" id="last_project_name" name="last_project_name"><br>
+        <label for="present_project_name">Present Project Name:</label><br>
+        <input type="text" id="present_project_name" name="present_project_name"><br>
+        <label for="leaves_taken">Leaves Taken:</label><br>
+        <input type="number" id="leaves_taken" name="leaves_taken"><br>
+        <label for="salary">Salary:</label><br>
+        <input type="number" id="salary" name="salary"><br>
+        <label for="bank_account">Bank Account:</label><br>
+        <input type="text" id="bank_account" name="bank_account"><br>
+        <button type="submit">Submit</button>    
+    </form>
+</body>
+</html>

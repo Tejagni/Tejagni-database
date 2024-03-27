@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login - Company Management System</title>
+    <style>
+        /* Add your CSS styles here */
+        body {
+            background-color: skyblue;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            height: 100vh;
+            margin: 0;
+            padding: 0;
+        }
+
+        .login-container {
+            background-color: white;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+
+        .login-form {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        .login-form input {
+            margin: 10px;
+            padding: 5px;
+            width: 250px;
+        }
+
+        .login-form button {
+            padding: 10px 20px;
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            cursor: pointer;
+        }
+    </style>
+</head>
+<body>
+    <div class="login-container">
+        <h2>Login - Company Management System</h2>
+        <form class="login-form" id="login-form">
+            <input type="text" id="employee-name" placeholder="Employee Name" required>
+            <input type="text" id="present-project" placeholder="Present Project" required>
+            <button type="submit">Login</button>
+        </form>
+        <p id="error-message" style="color: red; display: none;">Invalid details. Please try again.</p>
+    </div>
+
+    <!-- JavaScript code for handling login -->
+    <script>
+        document.getElementById('login-form').addEventListener('submit', function(event) {
+            event.preventDefault();
+            var employeeName = document.getElementById('employee-name').value;
+            var presentProject = document.getElementById('present-project').value;
+
+            // Validate employee name and present project
+            fetch('/employees/search?name=' + employeeName)
+                .then(response => response.json())
+                .then(data => {
+                    if (data.message || data.present_project_name !== presentProject) {
+                        document.getElementById('error-message').style.display = 'block';
+                    } else {
+                        window.location.href = '/home';
+                    }
+                })
+                .catch(error => console.error('Error:', error));
+        });
+    </script>
+</body>
+</html>
