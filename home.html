@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Company Management System</title>
+    <style>
+        /* Add your CSS styles here */
+        body {
+            background-color: skyblue;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            height: 100vh;
+            margin: 0;
+            padding: 0;
+        }
+
+        div {
+            margin-top: 20px;
+            text-align: center;
+        }
+
+        /* Set the size of the calendar */
+        #live-calendar iframe {
+            width: 800px;
+            height: 600px;
+            border: 0;
+        }
+    </style>
+</head>
+<body>
+    <h1>Welcome to Company Management System</h1>
+
+    <div id="live-calendar">
+        <!-- Include live company calendar here -->
+        <iframe src="https://calendar.google.com/calendar/embed?src=en.usa%23holiday%40group.v.calendar.google.com" style="border: 0" width="800" height="600" frameborder="0" scrolling="no"></iframe>
+    </div>
+
+    <div id="live-clock">
+        <!-- Include live clock with seconds here -->
+        <h2 id="clock"></h2>
+        <script>
+            function updateClock() {
+                var now = new Date();
+                var hours = now.getHours();
+                var minutes = now.getMinutes();
+                var seconds = now.getSeconds();
+                document.getElementById('clock').textContent = hours + ':' + minutes + ':' + seconds;
+            }
+            setInterval(updateClock, 1000);
+        </script>
+    </div>
+
+
+    <div id="employee-search">
+        <!-- Include employee search form connected to Flask server here -->
+        <h2>Search Employee:</h2>
+        <form id="search-form" action="/employees/search" method="GET">
+            <input type="text" name="name" id="employee-name" placeholder="Enter employee name">
+            <button type="submit">Search</button>
+        </form>
+    </div>
+
+    <div id="delete-employee">
+        <h2>Delete Employee:</h2>
+        <form action="/employees/delete" method="POST">
+            <label for="delete_employee_name">Employee Name:</label><br>
+            <input type="text" id="delete_employee_name" name="employee_name" required><br>
+            <button type="submit">Delete</button>
+        </form>
+    </div>
+
+    <div id="update-employee">
+        <h2>Update Employee Details:</h2>
+        <form id="update-form" action="/employees/update" method="POST">
+            <label for="update_employee_name">Employee Name:</label><br>
+            <input type="text" id="update_employee_name" name="employee_name"><br>
+            <label for="manager_name">Manager Name:</label><br>
+            <input type="text" id="manager_name" name="manager_name"><br>
+            <label for="last_project_name">Last Project Name:</label><br>
+            <input type="text" id="last_project_name" name="last_project_name"><br>
+            <label for="present_project_name">Present Project Name:</label><br>
+            <input type="text" id="present_project_name" name="present_project_name"><br>
+            <label for="leaves_taken">Leaves Taken:</label><br>
+            <input type="number" id="leaves_taken" name="leaves_taken"><br>
+            <label for="salary">Salary:</label><br>
+            <input type="number" id="salary" name="salary"><br>
+            <button type="submit">Update</button>
+        </form>
+    </div>
+
+    <div id="employee-details">
+        <!-- Employee details will be populated dynamically here -->
+        <h2>Employee Details:</h2>
+        <div id="employee-details-content"></div>
+    </div>
+
+    <div id="notification-box">
+        <!-- Include notification box with sample duplicate notifications here -->
+        <h2>Notifications:</h2>
+        <p>Sample duplicate notifications go here...</p>
+    </div>
+
+    <div id="upcoming-events">
+        <!-- Include upcoming events box here -->
+        <h2>Upcoming Events:</h2>
+        <p>Upcoming events go here...</p>
+    </div>
+
+    <div id="add-employee">
+        <a href="/add_employee"><button>Add Employee</button></a>
+    </div>
+
+    <script>
+        // JavaScript code for handling form submission and displaying employee details
+        document.getElementById('search-form').addEventListener('submit', function(event) {
+            event.preventDefault(); // Prevent default form submission
+            var name = document.getElementById('employee-name').value; // Get employee name from input
+            fetch('/employees/search?name=' + name) // Send GET request to search for employee
+                .then(response => response.json())
+                .then(data => {
+                    var employeeDetailsContent = document.getElementById('employee-details-content');
+                    employeeDetailsContent.innerHTML = ''; // Clear previous content
+                    if (data.message) {
+                        employeeDetailsContent.innerHTML = '<p>' + data.message + '</p>';
+                    } else {
+                        var employeeDetails = '';
+                        for (var key in data) {
+                            employeeDetails += '<p><strong>' + key + ':</strong> ' + data[key] + '</p>';
+                        }
+                        employeeDetailsContent.innerHTML = employeeDetails;
+                    }
+                })
+                .catch(error => console.error('Error:', error));
+        });
+    </script>
+</body>
+</html>
